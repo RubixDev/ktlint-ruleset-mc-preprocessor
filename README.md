@@ -4,6 +4,28 @@ This is a custom rule set for [ktlint](https://ktlint.github.io/) which modifies
 some standard rules to better work with Kotlin code that makes use of
 [preprocessor](https://github.com/ReplayMod/preprocessor).
 
+## Usage
+
+The exact usage is dependent on your ktlint setup and you should refer to your
+integration's documentation, but here is how you would do it for
+[Spotless](https://github.com/diffplug/spotless/tree/main/plugin-gradle#applying-ktlint-to-kotlin-files)
+in a `build.gradle.kts` file:
+
+```kts
+repositories {
+    maven("https://jitpack.io")
+}
+
+spotless {
+    kotlin {
+        ktlint().customRuleSets(listOf("com.github.RubixDev:ktlint-ruleset-mc-preprocessor:01fbcf09be"))
+    }
+}
+```
+
+Replace the commit hash with the latest hash
+[on JitPack](https://jitpack.io/#RubixDev/ktlint-ruleset-mc-preprocessor).
+
 ## Included Rules
 
 - [`mc-preprocessor:chain-wrapping`](./src/main/kotlin/de/rubixdev/ktlint/mc/preprocessor/ChainWrappingRule.kt)
