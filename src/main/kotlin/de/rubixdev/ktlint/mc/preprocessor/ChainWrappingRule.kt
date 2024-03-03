@@ -8,12 +8,14 @@
 
 package de.rubixdev.ktlint.mc.preprocessor
 
+import com.pinterest.ktlint.rule.engine.core.api.*
 import com.pinterest.ktlint.rule.engine.core.api.ElementType.ANDAND
 import com.pinterest.ktlint.rule.engine.core.api.ElementType.COMMA
 import com.pinterest.ktlint.rule.engine.core.api.ElementType.DIV
 import com.pinterest.ktlint.rule.engine.core.api.ElementType.DOT
 import com.pinterest.ktlint.rule.engine.core.api.ElementType.ELSE_KEYWORD
 import com.pinterest.ktlint.rule.engine.core.api.ElementType.ELVIS
+import com.pinterest.ktlint.rule.engine.core.api.ElementType.IMPORT_DIRECTIVE
 import com.pinterest.ktlint.rule.engine.core.api.ElementType.LBRACE
 import com.pinterest.ktlint.rule.engine.core.api.ElementType.LPAR
 import com.pinterest.ktlint.rule.engine.core.api.ElementType.MINUS
@@ -24,25 +26,10 @@ import com.pinterest.ktlint.rule.engine.core.api.ElementType.PERC
 import com.pinterest.ktlint.rule.engine.core.api.ElementType.PLUS
 import com.pinterest.ktlint.rule.engine.core.api.ElementType.PREFIX_EXPRESSION
 import com.pinterest.ktlint.rule.engine.core.api.ElementType.SAFE_ACCESS
-import com.pinterest.ktlint.rule.engine.core.api.IndentConfig
 import com.pinterest.ktlint.rule.engine.core.api.IndentConfig.Companion.DEFAULT_INDENT_CONFIG
-import com.pinterest.ktlint.rule.engine.core.api.Rule
-import com.pinterest.ktlint.rule.engine.core.api.RuleId
 import com.pinterest.ktlint.rule.engine.core.api.editorconfig.EditorConfig
 import com.pinterest.ktlint.rule.engine.core.api.editorconfig.INDENT_SIZE_PROPERTY
 import com.pinterest.ktlint.rule.engine.core.api.editorconfig.INDENT_STYLE_PROPERTY
-import com.pinterest.ktlint.rule.engine.core.api.isPartOfComment
-import com.pinterest.ktlint.rule.engine.core.api.isWhiteSpace
-import com.pinterest.ktlint.rule.engine.core.api.isWhiteSpaceWithNewline
-import com.pinterest.ktlint.rule.engine.core.api.isWhiteSpaceWithoutNewline
-import com.pinterest.ktlint.rule.engine.core.api.nextCodeLeaf
-import com.pinterest.ktlint.rule.engine.core.api.nextLeaf
-import com.pinterest.ktlint.rule.engine.core.api.nextSibling
-import com.pinterest.ktlint.rule.engine.core.api.prevCodeLeaf
-import com.pinterest.ktlint.rule.engine.core.api.prevCodeSibling
-import com.pinterest.ktlint.rule.engine.core.api.prevLeaf
-import com.pinterest.ktlint.rule.engine.core.api.upsertWhitespaceAfterMe
-import com.pinterest.ktlint.rule.engine.core.api.upsertWhitespaceBeforeMe
 import org.jetbrains.kotlin.com.intellij.lang.ASTNode
 import org.jetbrains.kotlin.com.intellij.psi.impl.source.tree.LeafElement
 import org.jetbrains.kotlin.com.intellij.psi.impl.source.tree.LeafPsiElement
@@ -90,7 +77,7 @@ class ChainWrappingRule :
                 return
             }
             val nextLeaf = node.nextCodeLeaf()?.prevLeaf()
-            if (nextLeaf.isWhiteSpaceWithNewline() && !node.isElvisOperatorAndComment()) {
+            if (nextLeaf.isWhiteSpaceWithNewline() && !node.isElvisOperatorAndComment() && !node.isWildcardImport()) {
                 emit(node.startOffset, "Line must not end with \"${node.text}\"", true)
                 if (autoCorrect) {
                     // rewriting
@@ -198,4 +185,6 @@ class ChainWrappingRule :
     private fun ASTNode.isElvisOperatorAndComment(): Boolean =
         elementType == ELVIS
             && leaves().takeWhile { it.isWhiteSpaceWithoutNewline() || it.isPartOfComment() }.any()
+
+    private fun ASTNode.isWildcardImport(): Boolean = elementType == MUL && treeParent.elementType == IMPORT_DIRECTIVE
 }

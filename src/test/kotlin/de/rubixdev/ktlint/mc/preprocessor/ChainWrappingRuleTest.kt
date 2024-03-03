@@ -351,4 +351,14 @@ class ChainWrappingRuleTest {
             """.trimIndent()
         chainWrappingRuleAssertThat(code).hasNoLintViolations()
     }
+
+    @Test
+    fun `Given a wildcard import`() {
+        val code =
+            """
+            import java.util.*
+            import some.other.imported.Class
+            """.trimIndent()
+        chainWrappingRuleAssertThat(code).hasNoLintViolations()
+    }
 }

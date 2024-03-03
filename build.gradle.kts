@@ -42,6 +42,14 @@ dependencies {
     ktlintRuleset(project)
 }
 
+ktlint {
+    additionalEditorconfig =
+        mapOf(
+            "ktlint_standard_no-wildcard-imports" to "disabled",
+            "ktlint_standard_chain-wrapping" to "disabled",
+        )
+}
+
 tasks.named<Test>("test") {
     useJUnitPlatform()
 }
