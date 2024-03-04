@@ -18,5 +18,6 @@ class CustomRuleSetProvider : RuleSetProviderV3(RuleSetId(CUSTOM_RULE_SET_ID)) {
         setOf(
             RuleProvider { ChainWrappingRule() },
             RuleProvider { CommentSpacingRule() },
+            RuleProvider { ImportOrderingRule() },
         )
 }
