@@ -43,16 +43,12 @@ Replace the commit hash with the latest hash
   - modified to allow comments starting with `//#`, `//$` or `///` to not have
     spaces after them
 
-## TODO
-
-- `mc-preprocessor:import-ordering`
+- [`mc-preprocessor:import-ordering`](./src/main/kotlin/de/rubixdev/ktlint/mc/preprocessor/ImportOrderingRule.kt)
   - based on
     [`standard:import-ordering`](https://github.com/pinterest/ktlint/blob/c4788a5f581f0d9f85ca47296b6b576fd6b5d594/ktlint-ruleset-standard/src/main/kotlin/com/pinterest/ktlint/ruleset/standard/rules/ImportOrderingRule.kt)
   - modified to sort imports alphabetically, but respects preprocessor comments
-    for version-specific imports and puts those separate and at the end but
-    before `static` and `java` imports
-    [as specified in their docs](https://github.com/ReplayMod/preprocessor#the-preprocessor).
-    Also sorts the preprocessor imports based on their minimum Minecraft version
-    and alphabetically per preprocessor block.
+    for version-specific imports and puts those separately at the end
+    [as specified in their docs](https://github.com/ReplayMod/preprocessor#the-preprocessor)
+  - sorts the preprocessor import blocks based on their Minecraft version
   - custom import ordering patterns cannot be specified with this version of the
     rule
