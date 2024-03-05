@@ -49,6 +49,7 @@ Replace the commit hash with the latest hash
   - modified to sort imports alphabetically, but respects preprocessor comments
     for version-specific imports and puts those separately at the end
     [as specified in their docs](https://github.com/ReplayMod/preprocessor#the-preprocessor)
-  - sorts the preprocessor import blocks based on their Minecraft version
+  - sorts the preprocessor import blocks based on their Minecraft version and
+    the comparison operator they use
   - custom import ordering patterns cannot be specified with this version of the
     rule

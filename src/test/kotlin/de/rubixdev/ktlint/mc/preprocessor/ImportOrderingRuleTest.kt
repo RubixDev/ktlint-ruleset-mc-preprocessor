@@ -273,4 +273,59 @@ class ImportOrderingRuleTest {
             .hasLintViolation(1, 1, ERROR_UNSORTED_IMPORTS)
             .isFormattedAs(formattedCode)
     }
+
+    @Test
+    fun `Given incorrectly sorted preprocessor comments`() {
+        val code =
+            """
+            //#if MC >= 12005
+            //#endif
+            //#if MC > 12004
+            //#endif
+            //#if MC >= 12004
+            //#endif
+            //#if MC <= 12004
+            //#endif
+            //#if MC <= 12003
+            //#endif
+            //#if MC < 12004
+            //#endif
+            //#if FABRIC < 2
+            //#endif
+            //#if FABRIC >= 2
+            //#endif
+            import something
+            """.trimIndent()
+        val formattedCode =
+            """
+            import something
+
+            //#if FABRIC < 2
+            //#endif
+
+            //#if FABRIC >= 2
+            //#endif
+
+            //#if MC < 12004
+            //#endif
+
+            //#if MC <= 12003
+            //#endif
+
+            //#if MC <= 12004
+            //#endif
+
+            //#if MC >= 12004
+            //#endif
+
+            //#if MC > 12004
+            //#endif
+
+            //#if MC >= 12005
+            //#endif
+            """.trimIndent()
+        importOrderingRuleAssertThat(code)
+            .hasLintViolation(1, 1, ERROR_UNSORTED_IMPORTS)
+            .isFormattedAs(formattedCode)
+    }
 }

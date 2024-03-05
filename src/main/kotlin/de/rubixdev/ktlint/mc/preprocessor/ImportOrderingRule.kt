@@ -48,9 +48,9 @@ class ImportOrderingRule : Rule(ruleId = RuleId("$CUSTOM_RULE_SET_ID:import-orde
                         .asSequence()
                         // sort groups
                         .sortedWith { a, b ->
-                            val aVersion = a.getPreprocMinMcVersion()
-                            val bVersion = b.getPreprocMinMcVersion()
-                            if (aVersion == null && bVersion == null) {
+                            val aPreproc = a.getPreproc()
+                            val bPreproc = b.getPreproc()
+                            if (aPreproc == null && bPreproc == null) {
                                 val aIsPreproc = a.firstOrNull()?.isPreprocessorStartComment() == true
                                 val bIsPreproc = b.firstOrNull()?.isPreprocessorStartComment() == true
                                 if (aIsPreproc && bIsPreproc) {
@@ -60,12 +60,20 @@ class ImportOrderingRule : Rule(ruleId = RuleId("$CUSTOM_RULE_SET_ID:import-orde
                                 } else {
                                     1
                                 }
-                            } else if (aVersion == null) {
+                            } else if (aPreproc == null) {
                                 -1
-                            } else if (bVersion == null) {
+                            } else if (bPreproc == null) {
                                 1
                             } else {
-                                aVersion.compareTo(bVersion)
+                                when (aPreproc.first to bPreproc.first) {
+                                    "<" to ">", "<" to ">=", "<=" to ">", "<=" to ">=" -> -1
+                                    ">" to "<", ">=" to "<", ">" to "<=", ">=" to "<=" -> 1
+                                    "<" to "<=" -> aPreproc.second.compareTo(bPreproc.second + 1).let { if (it == 0) -1 else it }
+                                    "<=" to "<" -> (aPreproc.second + 1).compareTo(bPreproc.second).let { if (it == 0) 1 else it }
+                                    ">" to ">=" -> (aPreproc.second + 1).compareTo(bPreproc.second).let { if (it == 0) -1 else it }
+                                    ">=" to ">" -> aPreproc.second.compareTo(bPreproc.second + 1).let { if (it == 0) 1 else it }
+                                    else -> aPreproc.second.compareTo(bPreproc.second)
+                                }
                             }
                         }
                         // remove whitespace tokens
@@ -212,12 +220,12 @@ class ImportOrderingRule : Rule(ruleId = RuleId("$CUSTOM_RULE_SET_ID:import-orde
             || (elementType == ElementType.EOL_COMMENT && (text.startsWith("//#else") || text.startsWith("//$$")))
 
     // TODO: also compare based on operator (`>=`, `>`, `<=`, `<`)
-    private fun List<ASTNode>.getPreprocMinMcVersion(): Int? =
+    private fun List<ASTNode>.getPreproc(): Pair<String, Int>? =
         firstOrNull()?.let { node ->
             if (!node.isPreprocessorStartComment()) return@let null
             node.text.removePrefix("//#if").split(" ").filter { it.isNotBlank() }.let { split ->
                 if (split.firstOrNull() == "MC") {
-                    split.lastOrNull()?.toIntOrNull()
+                    split.lastOrNull()?.toIntOrNull()?.let { split[1] to it }
                 } else {
                     null
                 }
