@@ -21,19 +21,19 @@ class ImportOrderingRuleTest {
             import net.minecraft.util.Identifier
             import org.slf4j.Logger
             import org.slf4j.LoggerFactory
-            
+
+            //#if MC < 12002
+            //$$ import eu.pb4.polymer.networking.api.PolymerServerNetworking
+            //#endif
+
+            //#if MC < 12004
+            //$$ import eu.pb4.polymer.networking.api.PolymerServerNetworking
+            //#endif
+
             //#if MC >= 12001
             import eu.pb4.polymer.networking.api.PolymerServerNetworking
             //#else
-            //${'$'}${'$'} import eu.pb4.polymer.networking.api.PolymerServerNetworking
-            //#endif
-
-            //#if MC < 12002
-            //${'$'}${'$'} import eu.pb4.polymer.networking.api.PolymerServerNetworking
-            //#endif
-            
-            //#if MC < 12004
-            //${'$'}${'$'} import eu.pb4.polymer.networking.api.PolymerServerNetworking
+            //$$ import eu.pb4.polymer.networking.api.PolymerServerNetworking
             //#endif
             """.trimIndent()
         importOrderingRuleAssertThat(code)
@@ -65,18 +65,18 @@ class ImportOrderingRuleTest {
             import de.rubixdev.enchantedshulkers.config.WorldConfig
             import de.rubixdev.enchantedshulkers.enchantment.*
             import net.minecraft.registry.Registries
-            
-            
+
+
             import net.minecraft.registry.tag.TagKey
             //#if MC < 12002
-            //${'$'}${'$'} import eu.pb4.polymer.networking.api.PolymerServerNetworking
+            //$$ import eu.pb4.polymer.networking.api.PolymerServerNetworking
             //#endif
             import net.minecraft.util.Identifier
             import org.slf4j.Logger
             //#if MC >= 12001
             import eu.pb4.polymer.networking.api.PolymerServerNetworking
             //#else
-            //${'$'}${'$'} import eu.pb4.polymer.networking.api.PolymerServerNetworking
+            //$$ import eu.pb4.polymer.networking.api.PolymerServerNetworking
             //#endif
             import org.slf4j.LoggerFactory
 
@@ -94,19 +94,19 @@ class ImportOrderingRuleTest {
             import net.minecraft.util.Identifier
             import org.slf4j.Logger
             import org.slf4j.LoggerFactory
-            
+
+            //#if MC < 12002
+            //$$ import eu.pb4.polymer.networking.api.PolymerServerNetworking
+            //#endif
+
+            //#if MC < 12004
+            //$$ import eu.pb4.polymer.networking.api.PolymerServerNetworking
+            //#endif
+
             //#if MC >= 12001
             import eu.pb4.polymer.networking.api.PolymerServerNetworking
             //#else
-            //${'$'}${'$'} import eu.pb4.polymer.networking.api.PolymerServerNetworking
-            //#endif
-
-            //#if MC < 12002
-            //${'$'}${'$'} import eu.pb4.polymer.networking.api.PolymerServerNetworking
-            //#endif
-            
-            //#if MC < 12004
-            //${'$'}${'$'} import eu.pb4.polymer.networking.api.PolymerServerNetworking
+            //$$ import eu.pb4.polymer.networking.api.PolymerServerNetworking
             //#endif
             """.trimIndent()
         importOrderingRuleAssertThat(code)
@@ -119,7 +119,7 @@ class ImportOrderingRuleTest {
         val code =
             """
             import de.rubixdev.enchantedshulkers.config.ConfigCommand
-            
+
             import de.rubixdev.enchantedshulkers.config.WorldConfig
             """.trimIndent()
         val formattedCode =
@@ -137,16 +137,16 @@ class ImportOrderingRuleTest {
         val code =
             """
             import de.rubixdev.enchantedshulkers.config.WorldConfig
-            
+
             import de.rubixdev.enchantedshulkers.config.ConfigCommand
-            
+
             class Test {}
             """.trimIndent()
         val formattedCode =
             """
             import de.rubixdev.enchantedshulkers.config.ConfigCommand
             import de.rubixdev.enchantedshulkers.config.WorldConfig
-            
+
             class Test {}
             """.trimIndent()
         importOrderingRuleAssertThat(code)
@@ -215,7 +215,7 @@ class ImportOrderingRuleTest {
         val code =
             """
             //#if FABRIC < 1
-            //${'$'}${'$'} import eu.pb4.polymer.networking.api.PolymerServerNetworking
+            //$$ import eu.pb4.polymer.networking.api.PolymerServerNetworking
             //#endif
             import de.rubixdev.enchantedshulkers.config.ConfigCommand
             import de.rubixdev.enchantedshulkers.config.WorldConfig
@@ -225,14 +225,14 @@ class ImportOrderingRuleTest {
 
             import net.minecraft.registry.tag.TagKey
             //#if MC < 12002
-            //${'$'}${'$'} import eu.pb4.polymer.networking.api.PolymerServerNetworking
+            //$$ import eu.pb4.polymer.networking.api.PolymerServerNetworking
             //#endif
             import net.minecraft.util.Identifier
             import org.slf4j.Logger
             //#if FABRIC >= 2
             import eu.pb4.polymer.networking.api.PolymerServerNetworking
             //#else
-            //${'$'}${'$'} import eu.pb4.polymer.networking.api.PolymerServerNetworking
+            //$$ import eu.pb4.polymer.networking.api.PolymerServerNetworking
             //#endif
             import org.slf4j.LoggerFactory
 
@@ -252,21 +252,21 @@ class ImportOrderingRuleTest {
             import org.slf4j.LoggerFactory
 
             //#if FABRIC < 1
-            //${'$'}${'$'} import eu.pb4.polymer.networking.api.PolymerServerNetworking
+            //$$ import eu.pb4.polymer.networking.api.PolymerServerNetworking
             //#endif
 
             //#if FABRIC >= 2
             import eu.pb4.polymer.networking.api.PolymerServerNetworking
             //#else
-            //${'$'}${'$'} import eu.pb4.polymer.networking.api.PolymerServerNetworking
+            //$$ import eu.pb4.polymer.networking.api.PolymerServerNetworking
             //#endif
 
             //#if MC < 12002
-            //${'$'}${'$'} import eu.pb4.polymer.networking.api.PolymerServerNetworking
+            //$$ import eu.pb4.polymer.networking.api.PolymerServerNetworking
             //#endif
 
             //#if MC < 12004
-            //${'$'}${'$'} import eu.pb4.polymer.networking.api.PolymerServerNetworking
+            //$$ import eu.pb4.polymer.networking.api.PolymerServerNetworking
             //#endif
             """.trimIndent()
         importOrderingRuleAssertThat(code)
@@ -279,6 +279,10 @@ class ImportOrderingRuleTest {
         val code =
             """
             //#if MC >= 12005
+            //#endif
+            //#if MC >= 12002
+            //#endif
+            //#if MC >= 12001
             //#endif
             //#if MC > 12004
             //#endif
@@ -313,6 +317,12 @@ class ImportOrderingRuleTest {
             //#endif
 
             //#if MC <= 12004
+            //#endif
+
+            //#if MC >= 12001
+            //#endif
+
+            //#if MC >= 12002
             //#endif
 
             //#if MC >= 12004
