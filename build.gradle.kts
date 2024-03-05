@@ -47,6 +47,8 @@ ktlint {
         mapOf(
             "ktlint_standard_no-wildcard-imports" to "disabled",
             "ktlint_standard_chain-wrapping" to "disabled",
+            "ktlint_standard_comment-spacing" to "disabled",
+            "ktlint_standard_import-ordering" to "disabled",
         )
 }
 
