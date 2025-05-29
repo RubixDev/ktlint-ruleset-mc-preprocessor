@@ -350,4 +350,23 @@ class ImportOrderingRuleTest {
         importOrderingRuleAssertThat(code)
             .hasNoLintViolations()
     }
+
+    @Test
+    fun `Given non-import preproc comment right after imports`() {
+        val code =
+            """
+            //#if MC >= 12006
+            import stuff;
+            //#endif
+
+            //#if MC >= 12006
+            class Test {
+            //#else
+            //$$ else Test2 {
+            //#endif
+            }
+            """.trimIndent()
+        importOrderingRuleAssertThat(code)
+            .hasNoLintViolations()
+    }
 }

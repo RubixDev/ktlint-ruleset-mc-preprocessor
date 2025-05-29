@@ -139,7 +139,7 @@ class ImportOrderingRule : Rule(ruleId = RuleId("$CUSTOM_RULE_SET_ID:import-orde
             reverse()
             addAll(getChildren(null))
             addAll(leaves().takeWhile { it.isWhiteSpace() || it.isPreprocessorComment() })
-        }.dropLastWhile { it.isWhiteSpace() }.dropWhile { it.isWhiteSpace() }
+        }.dropLastWhile { it.isWhiteSpace() || it.isPreprocessorStartComment() }.dropWhile { it.isWhiteSpace() }
 
     private fun getImportGroups(
         nodes: List<ASTNode>,
