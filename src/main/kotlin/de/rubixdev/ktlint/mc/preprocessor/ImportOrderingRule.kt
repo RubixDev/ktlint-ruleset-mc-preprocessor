@@ -96,8 +96,9 @@ class ImportOrderingRule : Rule(ruleId = RuleId("$CUSTOM_RULE_SET_ID:import-orde
                                 }
                             }
                         }
-                        // add blank line after each group
+                        .filter { it.isNotEmpty() }
                         .toList()
+                        // add blank line after each group
                         .run {
                             flatMapIndexed { idx, group ->
                                 group.toMutableList().apply {
@@ -123,7 +124,9 @@ class ImportOrderingRule : Rule(ruleId = RuleId("$CUSTOM_RULE_SET_ID:import-orde
                             if (isNotEmpty()) node.treeParent.removeRange(first(), last().treeNext)
                         }
                         // actual import list
-                        node.removeRange(node.firstChildNode, node.lastChildNode.treeNext)
+                        node.lastChildNode?.let { lastChildNode ->
+                            node.removeRange(node.firstChildNode, lastChildNode.treeNext)
+                        }
                         sortedImports.forEach { node.addChild(it, null) }
                     }
                 }

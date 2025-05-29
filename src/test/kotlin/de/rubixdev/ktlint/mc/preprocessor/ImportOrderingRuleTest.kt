@@ -338,4 +338,16 @@ class ImportOrderingRuleTest {
             .hasLintViolation(1, 1, ERROR_UNSORTED_IMPORTS)
             .isFormattedAs(formattedCode)
     }
+
+    @Test
+    fun `Given file with just preproc`() {
+        val code =
+            """
+            //#if MC < 12006
+            //$$ import stuff;
+            //#endif
+            """.trimIndent()
+        importOrderingRuleAssertThat(code)
+            .hasNoLintViolations()
+    }
 }
